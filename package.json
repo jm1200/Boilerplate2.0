@@ -1,5 +1,5 @@
 {
-  "name": "react-material-ui-firebase",
+  "name": "boilerplate-2.0",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -36,5 +36,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "homepage": "https://phoqe.me/react-material-ui-firebase"
+  "homepage": ""
 }

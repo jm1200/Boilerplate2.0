@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import validate from 'validate.js';
+import validate from "validate.js";
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import AuthProviderList from '../layout/AuthProviderList';
+import AuthProviderList from "../layout/AuthProviderList";
 
 const initialState = {
-  emailAddress: '',
-  password: '',
+  emailAddress: "",
+  password: "",
 
   errors: null
 };
@@ -25,23 +25,25 @@ const initialState = {
 class SignInDialog extends Component {
   constructor(props) {
     super(props);
-
     this.state = initialState;
   }
 
   signIn = () => {
     const { emailAddress, password } = this.state;
-    
+
     const errors = validate({ emailAddress, password }, this.props.constraints);
 
     if (errors) {
       this.setState({ errors });
     } else {
-      this.setState({
-        errors: null
-      }, () => {
-        this.props.signIn(emailAddress, password);
-      });
+      this.setState(
+        {
+          errors: null
+        },
+        () => {
+          this.props.signIn(emailAddress, password);
+        }
+      );
     }
   };
 
@@ -49,25 +51,25 @@ class SignInDialog extends Component {
     this.setState(initialState);
   };
 
-  handleKeyPress = (event) => {
+  handleKeyPress = event => {
     const key = event.key;
 
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
       return;
     }
 
-    if (key === 'Enter') {
+    if (key === "Enter") {
       this.signIn();
     }
   };
 
-  handleEmailAddressChange = (event) => {
+  handleEmailAddressChange = event => {
     const emailAddress = event.target.value;
 
     this.setState({ emailAddress });
   };
 
-  handlePasswordChange = (event) => {
+  handlePasswordChange = event => {
     const password = event.target.value;
 
     this.setState({ password });
@@ -87,25 +89,34 @@ class SignInDialog extends Component {
     const { emailAddress, password, errors } = this.state;
 
     return (
-      <Dialog fullScreen={fullScreen} open={open} onClose={onClose} onExited={this.handleExited} onKeyPress={this.handleKeyPress}>
-        <DialogTitle>
-          Sign in to your account
-        </DialogTitle>
+      <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={onClose}
+        onExited={this.handleExited}
+        onKeyPress={this.handleKeyPress}
+      >
+        <DialogTitle>Sign in to your account</DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            Some features might be unavailable until you sign in.
-            While you're signed in you can manage your account.
+            Some features might be unavailable until you sign in. While you're
+            signed in you can manage your account.
           </DialogContentText>
 
-          <AuthProviderList isPerformingAuthAction={isPerformingAuthAction} onAuthProviderClick={onAuthProviderClick} />
+          <AuthProviderList
+            isPerformingAuthAction={isPerformingAuthAction}
+            onAuthProviderClick={onAuthProviderClick}
+          />
 
           <form>
             <TextField
               autoComplete="email"
               error={!!(errors && errors.emailAddress)}
               fullWidth
-              helperText={(errors && errors.emailAddress) ? errors.emailAddress[0] : ''}
+              helperText={
+                errors && errors.emailAddress ? errors.emailAddress[0] : ""
+              }
               margin="normal"
               onChange={this.handleEmailAddressChange}
               placeholder="E-mail address"
@@ -118,7 +129,7 @@ class SignInDialog extends Component {
               autoComplete="current-password"
               error={!!(errors && errors.password)}
               fullWidth
-              helperText={(errors && errors.password) ? errors.password[0] : ''}
+              helperText={errors && errors.password ? errors.password[0] : ""}
               margin="normal"
               onChange={this.handlePasswordChange}
               placeholder="Password"
@@ -130,9 +141,25 @@ class SignInDialog extends Component {
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary" onClick={onClose}>Cancel</Button>
-          <Button color="primary" disabled={isPerformingAuthAction} variant="outlined" onClick={onResetPasswordClick}>Reset Password</Button>
-          <Button color="primary" disabled={(!emailAddress || !password) || isPerformingAuthAction} variant="contained" onClick={this.handleSignInClick}>Sign In</Button>
+          <Button color="primary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            disabled={isPerformingAuthAction}
+            variant="outlined"
+            onClick={onResetPasswordClick}
+          >
+            Reset Password
+          </Button>
+          <Button
+            color="primary"
+            disabled={!emailAddress || !password || isPerformingAuthAction}
+            variant="contained"
+            onClick={this.handleSignInClick}
+          >
+            Sign In
+          </Button>
         </DialogActions>
       </Dialog>
     );
